@@ -10,7 +10,7 @@
 Yii::import("zii.widgets.grid.CGridView");
 
 class CGridViewForm extends CGridView {
-
+    
     /**
      * Initialize the widget
      */
@@ -31,6 +31,12 @@ class CGridViewForm extends CGridView {
             'enableAjaxValidation' => false,
                 ));
         echo "<span class='right bottom ' >
+            <span style='margin-right: 15px;'>per Page ";
+        $pageSize=Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']);
+        echo CHtml::dropDownList('pageSize',$pageSize,array(10=>10,20=>20,50=>50,100=>100),array(
+                                  'onchange'=>"$.fn.yiiGridView.update('".$this->id."',{ data:{pageSize: $(this).val() }})",
+                    )); 
+        echo "</span>
                 <span>Action</span> ";
         echo CHtml::dropDownList('action', '', $actions);
         $this->widget('zii.widgets.jui.CJuiButton', array(
